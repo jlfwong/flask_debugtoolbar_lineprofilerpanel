@@ -10,9 +10,9 @@ don't need to worry about that.
 Installation
 ------------
 
-Somewhere after you've set `app.debug = True` and before `app.run`, you need to 
-specify the `flask_debugtoolbar` panels that you want to use and include 
-`'flask_debugtoolbar_line_profiler_panel.panels.LineProfilerPanel'` in that 
+Somewhere after you've set ``app.debug = True`` and before ``app.run``, you need
+to specify the ``flask_debugtoolbar`` panels that you want to use and include
+``'flask_debugtoolbar_line_profiler_panel.panels.LineProfilerPanel'`` in that
 list.
 
 For example, here's a small flask app with the panel installed and with line 
@@ -56,7 +56,7 @@ profiling enabled for the `hello_world`:
 Usage
 -----
 
-Unlike the regular profile panel that comes with `flask_debugtoolbar`, the line 
+Unlike the regular profile panel that comes with ``flask_debugtoolbar``, the line 
 profiler will only profile functions you specifically tell it to. You can either 
 use it as a decorator or directly as a function.
 
@@ -74,9 +74,9 @@ use it as a decorator or directly as a function.
     # Explicit argument
     line_profile(some_function)
 
-Note that if I had done `line_profile(profile_page)` in the example above, it
-would've profiled the wrapper created by `app.route`. In general, you probably
-just want to use `line_profile` as a decorator.
+Note that if I had done ``line_profile(profile_page)`` in the example above, it
+would've profiled the wrapper created by ``app.route``. In general, you probably
+just want to use ``line_profile`` as a decorator.
 
 .. _`flask_debugtoolbar`: https://github.com/mgood/flask-debugtoolbar
 .. _`line_profiler`: https://github.com/certik/line_profiler
