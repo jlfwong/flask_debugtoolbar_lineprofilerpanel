@@ -28,7 +28,7 @@ setup(
         'templates/flask_debugtoolbar_line_profiler_panel/*',
     ]},
     install_requires=[
-        'Flask-DebugToolbar>=0.7.1'
-        'line-profiler>=1.0b3',
+        'Flask-DebugToolbar',
+        'line-profiler'
     ]
 )
