@@ -10,8 +10,6 @@ don't need to worry about that.
 Installation
 ------------
 
-## Integrate it into your flask app
-
 Somewhere after you've set `app.debug = True` and before `app.run`, you need to 
 specify the `flask_debugtoolbar` panels that you want to use and include 
 `'flask_debugtoolbar_line_profiler_panel.panels.LineProfilerPanel'` in that 
