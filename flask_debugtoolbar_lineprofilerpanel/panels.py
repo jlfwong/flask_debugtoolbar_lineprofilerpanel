@@ -6,7 +6,7 @@ import jinja2
 
 from flask_debugtoolbar.panels import DebugPanel
 
-from flask_debugtoolbar_line_profiler_panel.profile import functions_to_profile
+from flask_debugtoolbar_lineprofilerpanel.profile import functions_to_profile
 
 class LineProfilerPanel(DebugPanel):
     """

@@ -10,9 +10,15 @@ don't need to worry about that.
 Installation
 ------------
 
+First, you need to get the package. Install it with pip:
+
+::
+
+    pip install flask-debugtoolbar-lineprofilerpanel
+
 Somewhere after you've set ``app.debug = True`` and before ``app.run``, you need
 to specify the ``flask_debugtoolbar`` panels that you want to use and include
-``'flask_debugtoolbar_line_profiler_panel.panels.LineProfilerPanel'`` in that
+``'flask_debugtoolbar_lineprofilerpanel.panels.LineProfilerPanel'`` in that
 list.
 
 For example, here's a small flask app with the panel installed and with line 
@@ -25,7 +31,7 @@ profiling enabled for the `hello_world`:
 
     import flask_debugtoolbar
 
-    from flask_debugtoolbar_line_profiler_panel.profile import line_profile
+    from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
 
     @app.route('/')
     @line_profile
@@ -45,8 +51,8 @@ profiling enabled for the `hello_world`:
             'flask_debugtoolbar.panels.sqlalchemy.SQLAlchemyDebugPanel',
             'flask_debugtoolbar.panels.logger.LoggingPanel',
             'flask_debugtoolbar.panels.profiler.ProfilerDebugPanel',
-            # Add the line profiling 
-            'flask_debugtoolbar_line_profiler_panel.panels.LineProfilerPanel'
+            # Add the line profiling
+            'flask_debugtoolbar_lineprofilerpanel.panels.LineProfilerPanel'
         ]
         toolbar = flask_debugtoolbar.DebugToolbarExtension(app)
 
@@ -62,7 +68,7 @@ use it as a decorator or directly as a function.
 
 ::
 
-    from flask_debugtoolbar_line_profiler_panel.profile import line_profile
+    from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
 
     # Using it as a decorator
     @app.route('/profile')
