@@ -2,6 +2,7 @@ import line_profiler
 import functools
 import inspect
 import linecache
+import collections
 
 import jinja2
 
@@ -27,13 +28,16 @@ def process_line_stats(line_stats):
         sublines = inspect.getblock(all_lines[start_lineno-1:])
         end_lineno = start_lineno + len(sublines)
 
-        # Pad the timing data in order to display the code for the lines before
-        # the function body (def line, decorators, comments)
-        padded_timings = (
-            [(lineno, 0, 0) for lineno in range(start_lineno, timings[0][0])]
-            + timings
-            + [(lineno, 0, 0) for lineno in range(timings[-1][0] + 1, end_lineno)]
-        )
+        line_to_timing = collections.defaultdict(lambda: (-1, 0))
+
+        for (lineno, nhits, time) in timings:
+            line_to_timing[lineno] = (nhits, time)
+
+        padded_timings = []
+
+        for lineno in range(start_lineno, end_lineno):
+            nhits, time = line_to_timing[lineno]
+            padded_timings.append( (lineno, nhits, time) )
 
         profile_results.append({
             'filename': filename,

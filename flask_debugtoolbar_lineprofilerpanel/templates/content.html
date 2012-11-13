@@ -1,4 +1,8 @@
 <style type="text/css">
+#flDebug .flask_debugtoolbar_lineprofilerpanel {
+    margin-bottom: 10px;
+}
+
 #flDebug .flask_debugtoolbar_lineprofilerpanel table {
     display: inline;
 }
@@ -62,12 +66,19 @@
                 {% else %}
                     {% set tr_class = 'odd' %}
                 {% endif %}
+
                 <tr class='{{ tr_class }}'>
                     <td>{{ lineno }}</td>
                     <td><pre>{{ line }}</pre></td>
+                    {% if nhits != -1 %}
                     <td>{{ "%.1f"|format(perc) }}</td>
                     <td>{{ "%.1f"|format(timing) }}</td>
                     <td>{{ nhits }}</td>
+                    {% else %}
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>
