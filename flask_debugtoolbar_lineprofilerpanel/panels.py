@@ -1,6 +1,7 @@
 import line_profiler
 import functools
-import StringIO
+import inspect
+import linecache
 
 import jinja2
 
@@ -8,10 +9,51 @@ from flask_debugtoolbar.panels import DebugPanel
 
 from flask_debugtoolbar_lineprofilerpanel.profile import functions_to_profile
 
+def process_line_stats(line_stats):
+    "Converts line_profiler.LineStats instance into something more useful"
+
+    # We want timings in ms (instead of CPython's microseconds)
+    multiplier = line_stats.unit / 1e-3
+
+    profile_results = []
+
+    for key, timings in sorted(line_stats.timings.items()):
+        if not timings:
+            continue
+
+        filename, start_lineno, func_name = key
+
+        all_lines = linecache.getlines(filename)
+        sublines = inspect.getblock(all_lines[start_lineno-1:])
+        end_lineno = start_lineno + len(sublines)
+
+        # Pad the timing data in order to display the code for the lines before
+        # the function body (def line, decorators, comments)
+        padded_timings = (
+            [(lineno, 0, 0) for lineno in range(start_lineno, timings[0][0])]
+            + timings
+            + [(lineno, 0, 0) for lineno in range(timings[-1][0] + 1, end_lineno)]
+        )
+
+        profile_results.append({
+            'filename': filename,
+            'start_lineno': start_lineno,
+            'func_name': func_name,
+            'timings': [
+                (
+                    lineno,
+                    all_lines[lineno - 1],
+                    time * multiplier,
+                    nhits,
+                ) for (lineno, nhits, time) in padded_timings
+            ],
+            'total_time': sum([time for _, _, time in timings]) * multiplier
+        })
+
+    return profile_results
+
 class LineProfilerPanel(DebugPanel):
-    """
-    Panel that displays the result from a line profiler run
-    """
+    "Panel that displays the result from a line profiler run"
     name = 'Line Profiler'
 
     user_activate = True
@@ -46,9 +88,7 @@ class LineProfilerPanel(DebugPanel):
         if not self.is_active:
             return False
 
-        output = StringIO.StringIO()
-        self.profiler.print_stats(output)
-        self.stats = output.getvalue()
+        self.stats = self.profiler.get_stats()
 
         return response
 
@@ -71,6 +111,8 @@ class LineProfilerPanel(DebugPanel):
         return ''
 
     def content(self):
+        processed_line_stats = process_line_stats(self.stats)
+
         return self.render('content.html', {
-            'stats': self.stats
+            'stats': processed_line_stats
         })

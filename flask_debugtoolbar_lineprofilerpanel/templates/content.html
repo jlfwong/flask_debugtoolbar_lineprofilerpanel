@@ -1,17 +1,92 @@
-<pre style='font-family: monospace'>
+<style type="text/css">
+#flDebug .flask_debugtoolbar_lineprofilerpanel table {
+    display: inline;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel table td {
+    text-align: right;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel table th {
+    text-align: center;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel {
+    font-family: monospace;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel tr.red1 {
+    background-color: #faa;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel tr.red10 {
+    background-color: #f33;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel tr.even {
+    background-color: white;
+}
+
+#flDebug .flask_debugtoolbar_lineprofilerpanel tr.odd {
+    background-color: #f5f5f5;
+}
+</style>
+
+<div class="flask_debugtoolbar_lineprofilerpanel">
 {% if stats %}
-    {{ stats }}
-{% else %}
-    from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
-
-    # Using it as a decorator
-    @app.route('/profile')
-    @line_profile
-    def profile_page():
-        ...
-        return flask.render_template('profile_page')
-
-    # Explicit argument
-    line_profile(some_function)
+    {% for function_result in stats %}
+        <h3>
+            {{ function_result.func_name }}
+            in {{ function_result.filename }}:{{ function_result.start_lineno }}
+        </h3>
+        <span>
+            Total Time: {{ "%.2f"|format(function_result.total_time) }} ms
+        </span>
+        <table>
+            <thead>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>% Time</th>
+                <th>Time (ms)</th>
+                <th>Hits</th>
+            </thead>
+            <tbody>
+            {% for lineno, line, timing, nhits in function_result.timings %}
+                {% set perc = 100 * timing/function_result.total_time %}
+                {% if perc > 10 %}
+                    {% set tr_class = 'red10' %}
+                {% elif perc > 1 %}
+                    {% set tr_class = 'red1' %}
+                {% elif lineno % 2 == 0 %}
+                    {% set tr_class = 'even' %}
+                {% else %}
+                    {% set tr_class = 'odd' %}
+                {% endif %}
+                <tr class='{{ tr_class }}'>
+                    <td>{{ lineno }}</td>
+                    <td><pre>{{ line }}</pre></td>
+                    <td>{{ "%.1f"|format(perc) }}</td>
+                    <td>{{ "%.1f"|format(timing) }}</td>
+                    <td>{{ nhits }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
 {% endif %}
+    <h3> Usage Instructinos </h3>
+
+<pre>
+from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
+
+# Using it as a decorator
+@app.route('/profile')
+@line_profile
+def profile_page():
+    ...
+    return flask.render_template('profile_page')
+
+# Explicit argument
+line_profile(some_function)
 </pre>
+</div>
