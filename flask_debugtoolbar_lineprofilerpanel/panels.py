@@ -31,9 +31,6 @@ class LineProfilerPanel(DebugPanel):
         return bool(self.profiler)
 
     def process_request(self, request):
-        if not self.is_active:
-            return
-
         self.profiler = line_profiler.LineProfiler()
 
         for f in functions_to_profile:
@@ -57,7 +54,7 @@ class LineProfilerPanel(DebugPanel):
 
     def title(self):
         if not self.is_active:
-            return "Profiler not active"
+            return 'Line Profiler Usage Docs'
 
         return 'Line Profiler'
 
@@ -66,7 +63,7 @@ class LineProfilerPanel(DebugPanel):
 
     def nav_subtitle(self):
         if not self.is_active:
-            return "in-active"
+            return "Click for Usage Docs"
 
         return '%d function(s)' % len(functions_to_profile)
 
@@ -74,11 +71,6 @@ class LineProfilerPanel(DebugPanel):
         return ''
 
     def content(self):
-        if not self.is_active:
-            return "The profiler is not activated, activate it to use it"
-
-        context = {
-            'stats': self.stats,
-        }
-
-        return self.render('content.html', context)
+        return self.render('content.html', {
+            'stats': self.stats
+        })

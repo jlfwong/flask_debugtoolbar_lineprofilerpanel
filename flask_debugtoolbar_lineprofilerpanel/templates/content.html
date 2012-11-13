@@ -1,1 +1,17 @@
-<pre style='font-family: monospace'>{{ stats }}</pre>
+<pre style='font-family: monospace'>
+{% if stats %}
+    {{ stats }}
+{% else %}
+    from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
+
+    # Using it as a decorator
+    @app.route('/profile')
+    @line_profile
+    def profile_page():
+        ...
+        return flask.render_template('profile_page')
+
+    # Explicit argument
+    line_profile(some_function)
+{% endif %}
+</pre>
