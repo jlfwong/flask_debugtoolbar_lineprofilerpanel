@@ -1,6 +1,8 @@
 Line Profile Panel for Flask Debug Toolbar
 ==========================================
 
+.. image:: http://i.imgur.com/d5KaP.png
+
 This is a panel for `flask_debugtoolbar`_ which enables the ability to view 
 line profiling information from selected functions.
 
@@ -83,6 +85,20 @@ either use it as a decorator or directly as a function.
 Note that if I had done ``line_profile(profile_page)`` in the example above, it
 would've profiled the wrapper created by ``app.route``. In general, you probably
 just want to use ``line_profile`` as a decorator.
+
+Also note that the following will profile the decorator wrapper, not the inner
+function.
+
+::
+
+    # Using it incorrectly as a decorator
+    @line_profile
+    @app.route('/profile')
+    def profile_page():
+        ...
+        return flask.render_template('profile_page')
+
+Always use ``@line_profile`` as the inner-most decorator.
 
 .. _`flask_debugtoolbar`: https://github.com/mgood/flask-debugtoolbar
 .. _`line_profiler`: https://github.com/certik/line_profiler
