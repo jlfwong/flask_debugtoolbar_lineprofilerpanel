@@ -1,3 +1,9 @@
+0.0.6 (2012-11-13)
+++++++++++++++++++
+
+* No longer polluting the template namespace
+* Show all lines, not just those with profiling information
+
 0.0.5 (2012-11-13)
 ++++++++++++++++++
 
