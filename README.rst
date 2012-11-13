@@ -62,9 +62,9 @@ profiling enabled for the `hello_world`:
 Usage
 -----
 
-Unlike the regular profile panel that comes with ``flask_debugtoolbar``, the line 
-profiler will only profile functions you specifically tell it to. You can either 
-use it as a decorator or directly as a function.
+Unlike the regular profile panel that comes with ``flask_debugtoolbar``, the
+line profiler will only profile functions you specifically tell it to. You can
+either use it as a decorator or directly as a function.
 
 ::
 
@@ -73,7 +73,7 @@ use it as a decorator or directly as a function.
     # Using it as a decorator
     @app.route('/profile')
     @line_profile
-    def profile_page(profile_user_id):
+    def profile_page():
         ...
         return flask.render_template('profile_page')
 
