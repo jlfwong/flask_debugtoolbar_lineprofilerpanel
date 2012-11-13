@@ -67,7 +67,9 @@ class LineProfilerPanel(DebugPanel):
 
         self.jinja_env.loader = jinja2.ChoiceLoader([
             self.jinja_env.loader,
-            jinja2.PackageLoader(__name__, 'templates')
+            jinja2.PrefixLoader({
+                'lineprofiler': jinja2.PackageLoader(__name__, 'templates')
+            })
         ])
 
         if functions_to_profile:
@@ -117,6 +119,6 @@ class LineProfilerPanel(DebugPanel):
     def content(self):
         processed_line_stats = process_line_stats(self.stats)
 
-        return self.render('content.html', {
+        return self.render('lineprofiler/content.html', {
             'stats': processed_line_stats
         })
