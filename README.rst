@@ -162,7 +162,7 @@ and insert the monkey-patch, like so:
                 from flask_debugtoolbar_lineprofilerpanel.profile import line_profile
 
 
-                # import the methods you want to profile here, and whitelist them with line_profile:
+                ## import the methods you want to profile here, and whitelist them with line_profile:
                 #from application.views import YourViewClass
                 #
                 #line_profile(YourViewClass.the_method_you_want_to_profile)
