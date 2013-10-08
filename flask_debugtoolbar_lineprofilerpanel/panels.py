@@ -13,10 +13,13 @@ from flask_debugtoolbar_lineprofilerpanel.profile import functions_to_profile
 def process_line_stats(line_stats):
     "Converts line_profiler.LineStats instance into something more useful"
 
+    profile_results = []
+
+    if not line_stats:
+        return profile_results
+
     # We want timings in ms (instead of CPython's microseconds)
     multiplier = line_stats.unit / 1e-3
-
-    profile_results = []
 
     for key, timings in sorted(line_stats.timings.items()):
         if not timings:
