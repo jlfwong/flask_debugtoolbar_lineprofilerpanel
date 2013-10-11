@@ -13,7 +13,7 @@ except:
 setup(
     name='Flask-DebugToolbar-LineProfilerPanel',
     description="Panel for the Flask Debug toolbar to capture and view line-by-line profiling stats",
-    version='0.0.6',
+    version='1.0.1',
     url='https://github.com/phleet/flask_debugtoolbar_lineprofilerpanel',
 
     author='Jamie Wong',
@@ -27,6 +27,6 @@ setup(
     include_package_data=True,
     install_requires=[
         'Flask-DebugToolbar',
-        'line-profiler'
+        'line-profiler>=1.0b3'
     ]
 )
