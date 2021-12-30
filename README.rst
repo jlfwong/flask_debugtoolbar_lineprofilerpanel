@@ -18,6 +18,12 @@ First, you need to get the package. Install it with pip:
 
     pip install flask-debugtoolbar-lineprofilerpanel
 
+If you are using Poetry we recommend install as dev:
+
+::
+
+    poetry add -D flask-debugtoolbar-lineprofilerpanel
+
 Somewhere after you've set ``app.debug = True`` and before ``app.run``, you need
 to specify the ``flask_debugtoolbar`` panels that you want to use and include
 ``'flask_debugtoolbar_lineprofilerpanel.panels.LineProfilerPanel'`` in that
